@@ -64,218 +64,219 @@ total_attr = {
 }
 
 
+def render_random_image(n):
+    for x in range(0, n):
 
-for x in range(0, 100):
+        # using ETH block number as starting random number seed
 
-    # using ETH block number as starting random number seed
+        #b=13122130
+        #seed(x+b)
 
-    #b=13122130
-    #seed(x+b)
+        # background color
+        # randomize bg color
+        r, g, b = randint(133, 255), randint(133, 255), randint(133, 255)
+        bg = (r, g, b)
 
-    # background color
-    # randomize bg color
-    r, g, b = randint(133, 255), randint(133, 255), randint(133, 255)
-    bg = (r, g, b)
+        # outline color
+        ol = (19, 0, 0)
 
-    # outline color
-    ol = (19, 0, 0)
+        # special attributes R colors
+        # r1, r2, r3 = (0,0,0), (0,0,0), (0,0,0)
 
-    # special attributes R colors
-    # r1, r2, r3 = (0,0,0), (0,0,0), (0,0,0)
+        # randomize skin color
+        r, g, b = randint(0, 255), randint(0, 255), randint(0, 255)
+        sk = (r, g, b)
+        
+        # create_rabbit module creates a basic rabbit canvas for us
+        basic_rabbit = create_rabbit(bg, ol, sk)
 
-    # randomize skin color
-    r, g, b = randint(0, 255), randint(0, 255), randint(0, 255)
-    sk = (r, g, b)
-    
-    # create_rabbit module creates a basic rabbit canvas for us
-    basic_rabbit = create_rabbit(bg, ol, sk)
+        # Creates a deep copy of the canvas in order to add accessories 
+        pixels = copy.deepcopy(basic_rabbit)
 
-    # Creates a deep copy of the canvas in order to add accessories 
-    pixels = copy.deepcopy(basic_rabbit)
+        # 1. check for pixelized skin or background
+        # 
+        # background: 35.00%
+        # body: 13.33%
 
-    # 1. check for pixelized skin or background
-    # 
-    # background: 35.00%
-    # body: 13.33%
-
-    
-    if randint(0, 10000)<= 3500:
-        #randomizer for skin by pixel
-        randomize_by_pixel(pixels, sk)
-    elif randint(0, 10000) <= 1333:
-        #randomizer for bg by pixel
-        randomize_by_pixel(pixels, bg)
-
-
-    # 2. check for mouth accessories
-    # Total: 45.00%
-    # weed: 33.33% * 45.00%
-    # cig: 15.00% * 45.00%
-    # candy: 51.67% * 45.00%
-
-    mouth_prob = 5500
-    if randint(0, 10000) > mouth_prob:
-        mouth_attr = True
-    try:
-        if mouth_attr:
-            mouth_accessory = randint(0, 10000)
-            print(mouth_accessory)
-            if mouth_accessory <= 3333:
-                # draw weed
-                coordinates.weed_draw(pixels)
-                mouth_attr = False
-            elif mouth_accessory >= 8500:
-                # draw candy
-                coordinates.cig_draw(pixels)
-                mouth_attr = False
-            else:
-                coordinates.candy_draw(pixels)
-                mouth_attr = False
-    except:
-        print("No mouth accessory")
-
-    # 3. check for robot arm
-    # 
-    # Robot Arm: 12.88%
-    #
-
-    # Requires special interaction with the back acccessories:
-    # Will render robot arm after the back accessories check
-
-    robot_arm_prob = 1288
-
-    if randint(0, 10000) <= robot_arm_prob:
-        # Variable to track whehter model has robot arm
-        robot_arm_attr = True
-
-        # Variable to track whether the robot arm has been drawn
-        robot_drawn = False
+        
+        if randint(0, 10000)<= 3500:
+            #randomizer for skin by pixel
+            randomize_by_pixel(pixels, sk)
+        elif randint(0, 10000) <= 1333:
+            #randomizer for bg by pixel
+            randomize_by_pixel(pixels, bg)
 
 
+        # 2. check for mouth accessories
+        # Total: 45.00%
+        # weed: 33.33% * 45.00%
+        # cig: 15.00% * 45.00%
+        # candy: 51.67% * 45.00%
 
-    # 4. check for jetback or angel
-    # Totaly: 18.88%
-    # Angel_Wing: 76.67% * 18.88%
-    # Jet_Pack: 23.33% 18.88%
+        mouth_prob = 5500
+        if randint(0, 10000) > mouth_prob:
+            mouth_attr = True
+        try:
+            if mouth_attr:
+                mouth_accessory = randint(0, 10000)
+                print(mouth_accessory)
+                if mouth_accessory <= 3333:
+                    # draw weed
+                    coordinates.weed_draw(pixels)
+                    mouth_attr = False
+                elif mouth_accessory >= 8500:
+                    # draw candy
+                    coordinates.cig_draw(pixels)
+                    mouth_attr = False
+                else:
+                    coordinates.candy_draw(pixels)
+                    mouth_attr = False
+        except:
+            print("No mouth accessory")
 
-    back_prob = 1888
+        # 3. check for robot arm
+        # 
+        # Robot Arm: 12.88%
+        #
 
-    jetpack_prob = 2333
+        # Requires special interaction with the back acccessories:
+        # Will render robot arm after the back accessories check
 
-    if randint(0, 10000) <= back_prob:
-        back_attr = True
-    try:
-        if back_attr:
-            # Check which back item will be drawn
-            # Need special logic for interaction with the robot arm accessory
-            back_accessory = randint(0, 10000)
-            if back_accessory <= jetpack_prob and robot_arm_attr:
-                coordinates.robot_arm_draw(pixels)
-                coordinates.jetpack_draw(pixels)
-                # set back attributes back to false after it's drawn
-                back_attr = False
+        robot_arm_prob = 1288
 
-                # set robot arm attribute back to false after it's drawn
-                robot_arm_attr = False
+        if randint(0, 10000) <= robot_arm_prob:
+            # Variable to track whehter model has robot arm
+            robot_arm_attr = True
 
-                # robot has been drawn
-                robot_drawn = True
-
-            elif back_accessory > jetpack_prob and robot_arm_attr: 
-                coordinates.angel_draw(pixels)
-                coordinates.robot_arm_draw(pixels)
-                back_attr = False
-                robot_arm_attr = False
-                robot_drawn = True
-
-            elif back_accessory <= jetpack_prob:
-                coordinates.jetpack_draw(pixels)
-                back_attr = False
-            
-            elif back_accessory > jetpack_prob:
-                coordinates.angel_draw(pixels)
-                back_attr = False
-    
-    except:
-        print("No back accessory")
-
-    
-    try:
-        # check whether the robot arm has been drawn
-        if robot_arm_attr and not robot_drawn:
-            coordinates.robot_arm_draw(pixels)
-            # set arm attribute back after it's drawn
-            robot_arm_attr = False
-
-            # reset arm drawn tracker after it's drawn
+            # Variable to track whether the robot arm has been drawn
             robot_drawn = False
+
+
+
+        # 4. check for jetback or angel
+        # Totaly: 18.88%
+        # Angel_Wing: 76.67% * 18.88%
+        # Jet_Pack: 23.33% 18.88%
+
+        back_prob = 1888
+
+        jetpack_prob = 2333
+
+        if randint(0, 10000) <= back_prob:
+            back_attr = True
+        try:
+            if back_attr:
+                # Check which back item will be drawn
+                # Need special logic for interaction with the robot arm accessory
+                back_accessory = randint(0, 10000)
+                if back_accessory <= jetpack_prob and robot_arm_attr:
+                    coordinates.robot_arm_draw(pixels)
+                    coordinates.jetpack_draw(pixels)
+                    # set back attributes back to false after it's drawn
+                    back_attr = False
+
+                    # set robot arm attribute back to false after it's drawn
+                    robot_arm_attr = False
+
+                    # robot has been drawn
+                    robot_drawn = True
+
+                elif back_accessory > jetpack_prob and robot_arm_attr: 
+                    coordinates.angel_draw(pixels)
+                    coordinates.robot_arm_draw(pixels)
+                    back_attr = False
+                    robot_arm_attr = False
+                    robot_drawn = True
+
+                elif back_accessory <= jetpack_prob:
+                    coordinates.jetpack_draw(pixels)
+                    back_attr = False
+                
+                elif back_accessory > jetpack_prob:
+                    coordinates.angel_draw(pixels)
+                    back_attr = False
+        
+        except:
+            print("No back accessory")
+
+        
+        try:
+            # check whether the robot arm has been drawn
+            if robot_arm_attr and not robot_drawn:
+                coordinates.robot_arm_draw(pixels)
+                # set arm attribute back after it's drawn
+                robot_arm_attr = False
+
+                # reset arm drawn tracker after it's drawn
+                robot_drawn = False
+        
+        except: 
+            print("No robot arm accessory")
+
+
+
+        # 5. check for whisker
+        # 
+        # Whisker: 5.88%
+        #
+        whisker_prob = 588
+        
+        if randint(0, 10000) < whisker_prob:
+            whisker_attr = True
+        try:
+            if whisker_attr:
+                coordinates.whisker_draw(pixels)
+                whisker_attr = False
+        except:
+            print("Not a wise rabbit")
+
+
+
+
+        # 6. check for diamond
+        # 
+        # Diamond: 2.88%
+        #
+
+        diamond_prob = 288
+        
+        if randint(0, 10000) <= diamond_prob:
+            diamond_attr = True
+        try:
+            if diamond_attr:
+                coordinates.whisker_draw(pixels)
+                diamond_attr = False
+        except:
+            print("Paper Hand")
+        
+        # 7. check for goggle
+        #
+        # Goggle: 31.37
+        #
+
+        goggle_prob = 3137
+        
+        if randint(0, 10000) <= goggle_prob:
+            goggle_attr = True
+        try:
+            if goggle_attr:
+                coordinates.whisker_draw(pixels)
+                goggle_attr = False
+        except:
+            print("Does not have a goggle")
     
-    except: 
-        print("No robot arm accessory")
 
+        # convert the pixels into an array using numpy
+        array = np.array(pixels, dtype=np.uint8)
 
+        # use PIL to create an image from the new array of pixels
+        new_image = Image.fromarray(array)
+        new_image = new_image.resize(dimensions, resample=0)
+        imgname = dirname + '/rabbit_images/' + (str(x)) + '.png'
+        new_image.save(imgname)
 
-    # 5. check for whisker
-    # 
-    # Whisker: 5.88%
-    #
-    whisker_prob = 588
-    
-    if randint(0, 10000) < whisker_prob:
-        whisker_attr = True
-    try:
-        if whisker_attr:
-            coordinates.whisker_draw(pixels)
-            whisker_attr = False
-    except:
-        print("Not a wise rabbit")
-
-
-
-
-    # 6. check for diamond
-    # 
-    # Diamond: 2.88%
-    #
-
-    diamond_prob = 288
-    
-    if randint(0, 10000) <= diamond_prob:
-        diamond_attr = True
-    try:
-        if diamond_attr:
-            coordinates.whisker_draw(pixels)
-            diamond_attr = False
-    except:
-        print("Paper Hand")
-    
-    # 7. check for goggle
-    #
-    # Goggle: 31.37
-    #
-
-    goggle_prob = 3137
-    
-    if randint(0, 10000) <= goggle_prob:
-        goggle_attr = True
-    try:
-        if goggle_attr:
-            coordinates.whisker_draw(pixels)
-            goggle_attr = False
-    except:
-        print("Does not have a goggle")
- 
-
-    # convert the pixels into an array using numpy
-    array = np.array(pixels, dtype=np.uint8)
-
-    # use PIL to create an image from the new array of pixels
-    new_image = Image.fromarray(array)
-    new_image = new_image.resize(dimensions, resample=0)
-    imgname = dirname + '/rabbit_images/' + (str(x)) + '.png'
-    new_image.save(imgname)
-
-
+# select numbers of image you wish to generate
+render_random_image(50)
 
 
 
