@@ -98,13 +98,21 @@ def render_random_image(n):
         # background: 35.00%
         # body: 13.33%
 
-        
         if randint(0, 10000)<= 3500:
             #randomizer for skin by pixel
             randomize_by_pixel(pixels, sk)
-        elif randint(0, 10000) <= 1333:
+
+            # counter to track attribute count of the total collection
+            total_attr["sk_pixel"] += 1
+        else:
+            total_attr["sk_solid"] += 1
+
+        if randint(0, 10000) <= 1333:
             #randomizer for bg by pixel
             randomize_by_pixel(pixels, bg)
+            total_attr["bg_pixel"] += 1
+        else:
+            total_attr["bg_solid"] += 1
 
 
         # 2. check for mouth accessories
@@ -123,13 +131,16 @@ def render_random_image(n):
                 if mouth_accessory <= 3333:
                     # draw weed
                     coordinates.weed_draw(pixels)
+                    total_attr["weed"] += 1
                     mouth_attr = False
                 elif mouth_accessory >= 8500:
                     # draw candy
                     coordinates.cig_draw(pixels)
+                    total_attr["cig"] += 1
                     mouth_attr = False
                 else:
                     coordinates.candy_draw(pixels)
+                    total_attr["candy"] += 1
                     mouth_attr = False
         except:
             print("No mouth accessory")
@@ -172,6 +183,8 @@ def render_random_image(n):
                 if back_accessory <= jetpack_prob and robot_arm_attr:
                     coordinates.robot_arm_draw(pixels)
                     coordinates.jetpack_draw(pixels)
+                    total_attr["robot_arm"] += 1
+                    total_attr["jetpack"] += 1
                     # set back attributes back to false after it's drawn
                     back_attr = False
 
@@ -184,16 +197,20 @@ def render_random_image(n):
                 elif back_accessory > jetpack_prob and robot_arm_attr: 
                     coordinates.angel_draw(pixels)
                     coordinates.robot_arm_draw(pixels)
+                    total_attr["angel"] += 1
+                    total_attr["robot_arm"] += 1
                     back_attr = False
                     robot_arm_attr = False
                     robot_drawn = True
 
                 elif back_accessory <= jetpack_prob:
                     coordinates.jetpack_draw(pixels)
+                    total_attr["jetpack"] += 1
                     back_attr = False
                 
                 elif back_accessory > jetpack_prob:
                     coordinates.angel_draw(pixels)
+                    total_attr["angel"] += 1
                     back_attr = False
         
         except:
@@ -204,6 +221,7 @@ def render_random_image(n):
             # check whether the robot arm has been drawn
             if robot_arm_attr and not robot_drawn:
                 coordinates.robot_arm_draw(pixels)
+                total_attr["robot_arm"] += 1
                 # set arm attribute back after it's drawn
                 robot_arm_attr = False
 
@@ -226,6 +244,7 @@ def render_random_image(n):
         try:
             if whisker_attr:
                 coordinates.whisker_draw(pixels)
+                total_attr["whisker"] += 1
                 whisker_attr = False
         except:
             print("Not a wise rabbit")
@@ -244,7 +263,8 @@ def render_random_image(n):
             diamond_attr = True
         try:
             if diamond_attr:
-                coordinates.whisker_draw(pixels)
+                coordinates.diamond_draw(pixels)
+                total_attr["diamond"] += 1
                 diamond_attr = False
         except:
             print("Paper Hand")
@@ -260,7 +280,8 @@ def render_random_image(n):
             goggle_attr = True
         try:
             if goggle_attr:
-                coordinates.whisker_draw(pixels)
+                coordinates.goggle_draw(pixels)
+                total_attr["goggle"] += 1
                 goggle_attr = False
         except:
             print("Does not have a goggle")
@@ -277,6 +298,3 @@ def render_random_image(n):
 
 # select numbers of image you wish to generate
 render_random_image(50)
-
-
-
