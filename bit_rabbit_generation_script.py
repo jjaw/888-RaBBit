@@ -371,9 +371,6 @@ def render_random_image(seed, n):
     (pd.DataFrame.from_dict(data=rabbit_attr, orient='index')
         .to_csv('rabbit_stats.csv', mode="w"))
 
-
-    return bg_nameless, sk_nameless
-
 # render_random_image(int seed, int num)
 # seed: for random.seed()
 # num: number of images to generate
