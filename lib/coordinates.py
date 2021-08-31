@@ -1,27 +1,30 @@
+from random import randint
+
 #interactions
 
 # jet pack OR angel # WARNING:
-# cig or
+# cig OR candy Or weed
 
-
-# robot and jetpack,
+# robot AND jetpack
 # paint robot first, then jetpack
 
-# robot and angel
+# robot AND angel
 # paint angel first then robot
 
-# robot and whiskter
+# robot AND whiskter
 # paint robot first then whiskter
 
-#always paint diamond last
+# always paint diamond last
 
-#special coordinates
+# special coordinates
 
 r1 = [20, 24]
 r2 = [20, 5], [21, 5]
 r3 = [4, 23], [5, 23], [6, 23]
 r4 = [5, 23]
 
+# Accessory List:
+#
 # cig
 # goggle
 # whisker
@@ -39,16 +42,24 @@ border_color = (19, 0, 0)
 #1. cig
 
 def cig_draw(base):
-       #brownish
+       # tracker for the burn color
+       burn_color = ""
+       
+       # brownish
        cig_butt_rbg = (121, 85, 0)
 
-       #whiteish
+       # whiteish
        cig_stick_rbg = (231, 231, 231)
 
-       #reddish
-       cig_burn_rbg = (255, 60, 0)
+       # reddish or blueish
+       if randint(0, 10000)<8000:
+              cig_burn_rbg = (255, 60, 0)
+              burn_color = "_red_burn"
+       else:       
+              cig_burn_rbg = (0, 68, 255)
+              burn_color = "_blue_burn"
 
-       #greyishi
+       # greyishi
        cig_smoke_rbg = (207, 207, 207)
 
 
@@ -73,11 +84,34 @@ def cig_draw(base):
        q, p = cig_butt_xy[1], cig_butt_xy[0]
        base[q][p] = cig_butt_rbg
 
+       # return the color of the burn for the stats tracker 
+       return burn_color
+
 #2. goggle
 
 def goggle_draw(base):
+       # tracker for the lens color
+       lens_color = ""
+
        goggle_border_rbg = (19, 0, 0)
-       goggle_lens_rbg = (0, 255, 246)
+       goggle_color_selector = randint(0, 10000)
+       if goggle_color_selector <= 5000:
+              # cyan
+              goggle_lens_rbg = (0, 255, 246)
+              lens_color = "_cyan_lens"
+       elif goggle_color_selector > 5000 and goggle_color_selector <= 7500:
+              # yellow
+              goggle_lens_rbg = (246, 255, 0)
+              lens_color = "_yellow_lens"
+       elif goggle_color_selector > 7500 and goggle_color_selector <= 9250:
+              # purple / magenta
+              goggle_lens_rbg = (246, 255, 0)
+              lens_color = "_magenta_lens"
+       else:
+              goggle_lens_rbg = (246, 246, 246)
+              lens_color = "_white_lens"
+
+
 
 
        goggle_border_xy = [
@@ -101,7 +135,7 @@ def goggle_draw(base):
 
               base[q][p] = goggle_lens_rbg
 
-
+       return lens_color
 
 #3. whisker
 
@@ -126,15 +160,27 @@ def whisker_draw(base):
 #4. candy
 
 def candy_draw(base):
+       # tracker for candy color
+       candy_color = ""
+
        candy_white_rbg = (245, 245, 245)
-       candy_red_rbg = (245, 0, 0)
+
+       candy_color_selector = randint(0, 10000)
+       if candy_color_selector <= 7700:
+              # red
+              candy_highlight_rbg = (245, 0, 0)
+              candy_color = "_red"
+       else:  
+              # green
+              candy_highlight_rbg = (26, 148, 49)
+              candy_color = "_green"
 
        candy_white_xy = [
               [3, 11],
               [5, 12], [7, 12]
        ]
 
-       candy_red_xy = [
+       candy_highlight_xy = [
        [4, 10],
        [4, 12], [6, 12]
        ]
@@ -144,10 +190,12 @@ def candy_draw(base):
 
               base[q][p] = candy_white_rbg
 
-       for x in candy_red_xy:
+       for x in candy_highlight_xy:
               q, p = x[1], x[0]
 
-              base[q][p] = candy_red_rbg
+              base[q][p] = candy_highlight_rbg
+       
+       return candy_color
 
 #5. robot arm
 
@@ -156,7 +204,8 @@ def robot_arm_draw(base):
        robot_arm_burn_out_rbg = (255, 108, 0)
        robot_arm_burn_cent_rbg = (255, 0, 0)
        robot_arm_metal_rbg = (171, 171, 171)
-       robot_arm_high_light_rbg = (84, 49, 197)
+       #robot_arm_high_light_rbg = (84, 49, 197)
+       robot_arm_high_light_rbg = (randint(0, 255), randint(0, 255), randint(0, 255))
 
 
        robot_arm_border_xy = [
