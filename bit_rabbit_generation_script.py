@@ -374,6 +374,6 @@ def render_random_image(seed, n):
 # render_random_image(int seed_x, int num)
 # seed: for random.seed()
 # num: number of images to generate
-seed_num = 84251388
+seed_num = 13145929 # ETH at the time of generation
 num = 500
 render_random_image(seed_num, num)
