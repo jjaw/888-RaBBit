@@ -52,7 +52,10 @@ dimensions = 480, 480
 
 tracker = {}
 
-def render_random_image(seed, n):
+def render_random_image(seed_num, n):
+    # set seed number
+    seed(seed_num)
+
     # dictionary to track attributes of each rabbit   
     rabbit_attr = {}
 
@@ -60,7 +63,7 @@ def render_random_image(seed, n):
     total_attr = lib.trackers.total_attr
 
 
-    for x in range(0, n):
+    for x in range(1, 1+n):
         # initialize attribute tracker for each rabbits
         # tracking background color, skin color, and total accessories
         rabbit_attr[x] = {
@@ -111,7 +114,7 @@ def render_random_image(seed, n):
         if randint(0, 10000)<= 3500:
             #randomizer for skin by pixel
             randomize_by_pixel(pixels, sk)
-            rabbit_attr[x]["sk_color"] = "pixelated"
+            rabbit_attr[x]["sk_color"] = "pixelized"
             # counter to track attribute count of the total collection
             total_attr["sk_pixel"] += 1
 
@@ -122,7 +125,7 @@ def render_random_image(seed, n):
         if randint(0, 10000) <= 1333:
             #randomizer for bg by pixel
             randomize_by_pixel(pixels, bg)
-            rabbit_attr[x]["bg_color"] = "pixelated"
+            rabbit_attr[x]["bg_color"] = "pixelized"
             total_attr["bg_pixel"] += 1
 
         else:
@@ -374,6 +377,6 @@ def render_random_image(seed, n):
 # render_random_image(int seed_x, int num)
 # seed: for random.seed()
 # num: number of images to generate
-seed_num = 13145929 # ETH at the time of generation
-num = 500
+seed_num = 8888888888 # An auspicious beginning... says the rabbit
+num = 317 # This is a sideway carrot
 render_random_image(seed_num, num)
