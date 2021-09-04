@@ -41,7 +41,7 @@ dirname = os.path.dirname(os.path.abspath(__file__))
 
 # sets final image dimensions as 480x480 pixels
 # the original 24x24 pixel image will be expanded to these dimensions
-dimensions = 480, 480
+dimensions = 336, 336
 
 
 # tells how many times to iterate through the following mechanism
