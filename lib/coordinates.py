@@ -105,7 +105,7 @@ def goggle_draw(base):
               lens_color = "_yellow_lens"
        elif goggle_color_selector > 7500 and goggle_color_selector <= 9250:
               # purple / magenta
-              goggle_lens_rbg = (246, 255, 0)
+              goggle_lens_rbg = (246, 0, 255)
               lens_color = "_magenta_lens"
        else:
               goggle_lens_rbg = (246, 246, 246)
